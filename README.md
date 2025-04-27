@@ -41,7 +41,7 @@ This mod is open source and contributions are welcome. Please feel free to submi
 
 ## Credits
 
-- Created by [Your Name]
+- Created by C. Lecter
 - Special thanks to the tModLoader team and community
 
 ## Changelog
