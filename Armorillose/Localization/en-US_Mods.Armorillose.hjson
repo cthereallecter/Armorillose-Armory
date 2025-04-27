@@ -1,99 +1,77 @@
 Items: {
-	CongealedSlimeCore: {
-		DisplayName: Congealed Slime Core
-		Tooltip:
-			'''
-			The solidified core of a slime
-			Used to craft slime-based equipment
-			'''
-	}
-
-	DemonEyeLens: {
-		DisplayName: Demon Eye Lens
-		Tooltip:
-			'''
-			A mysterious crystalline lens from a Demon Eye
-			Sparks with latent magical energy
-			'''
-	}
-
-	EyeBeamStaff: {
-		DisplayName: Eye Beam Staff
-		Tooltip:
-			'''
-			Fires a continuous beam of demonic energy
-			Beam pierces through enemies
-			'''
-	}
-
 	EyeOfPerception: {
 		DisplayName: Eye Of Perception
-		ToolTip:
-			'''
-			Reveals nearby enemies on map and increases critical strike chance
-			+3% critical strike chance
-			'''
-		Tooltip: ""
+		Tooltip: Reveals hidden truths to its wielder.
 	}
 
 	SlimeHeart: {
 		DisplayName: Slime Heart
-		Tooltip:
-			'''
-			Increases health regeneration when below 50% health
-			+2 HP/sec regen when below half health
-			'''
-	}
-
-	SlimeSlinger: {
-		DisplayName: Slime Slinger
-		Tooltip:
-			'''
-			Fires bouncing slime projectiles
-			Each bounce reduces damage by 12%
-			'''
-	}
-
-	ZombieBrainFragment: {
-		DisplayName: Zombie Brain Fragment
-		Tooltip:
-			'''
-			A partially intact fragment of a zombie's brain
-			Still twitches occasionally
-			'''
-	}
-
-	ZombieHand: {
-		DisplayName: Zombie Hand
-		Tooltip:
-			'''
-			A severed zombie hand that extends like a whip
-			Steals life from enemies
-			'''
+		Tooltip: Pulsating with sticky life energy.
 	}
 
 	ZombiesTenacity: {
-		DisplayName: Zombie's Tenacity
-		Tooltip:
-			'''
-			Grants brief invincibility after taking damage
-			1.5 seconds of invulnerability after being hit (20-second cooldown)
-			'''
+		DisplayName: Zombies Tenacity
+		Tooltip: Grants relentless endurance against all odds.
 	}
 
 	WatcherChestplate: {
 		DisplayName: Watcher Chestplate
-		Tooltip: ""
+		Tooltip: A chestpiece worn by those who never sleep.
 	}
 
 	WatcherGreaves: {
 		DisplayName: Watcher Greaves
-		Tooltip: ""
+		Tooltip: Lightweight yet unbreakable, perfect for eternal vigilance.
 	}
 
 	WatcherHelmet: {
 		DisplayName: Watcher Helmet
-		Tooltip: ""
+		Tooltip: See all. Miss nothing.
+	}
+
+	CongealedSlimeCore: {
+		DisplayName: Congealed Slime Core
+		Tooltip: A dense mass of compressed slime.
+	}
+
+	DemonEyeLens: {
+		DisplayName: Demon Eye Lens
+		Tooltip: Still faintly glows with dark vision.
+	}
+
+	ZombieBrainFragment: {
+		DisplayName: Zombie Brain Fragment
+		Tooltip: A scrap of stubborn, twitching memory.
+	}
+
+	EyeBeamStaff: {
+		DisplayName: Eye Beam Staff
+		Tooltip: Shoots concentrated beams of piercing vision.
+	}
+
+	SlimeSlinger: {
+		DisplayName: Slime Slinger
+		Tooltip: Launches globs of sticky chaos.
+	}
+
+	ZombieHand: {
+		DisplayName: Zombie Hand
+		Tooltip: Throw a reanimated hand that steals life and returns!
+	}
+
+	AmethystSoulreaver: {
+		DisplayName: Amethyst Soulreaver
+		Tooltip: Harvest the souls of the fallen with amethyst power.
+	}
+
+	HellstoneInfernoBlade: {
+		DisplayName: Hellstone Inferno Blade
+		Tooltip: Burn your foes with a blade forged in hellfire.
+	}
+
+	MagmaKatana: {
+		DisplayName: Magma Katana
+		Tooltip: Slice through enemies with molten precision.
 	}
 }
 

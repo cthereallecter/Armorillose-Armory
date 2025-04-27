@@ -1,10 +1,8 @@
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Armorillose.Content.Items.Materials;
-using Armorillose.Content.Players;
 
 namespace Armorillose.Content.Items.Armor.Watcher
 {

@@ -1,7 +1,13 @@
 Welcome to Armorillose Armory!
 Where your weapon needs are our specialty!
 
-v0.2.0.0 (Current)
+v0.2.0.1
+- Added three new weapons: Amethyst Soulreaver, Hellstone Inferno Blade, and Magma Katana
+- Added Crystal and Hellstone themed item categories
+- Updated documentation to include new items
+
+v0.2.0.0
+- First official .tmod release
 - Standardized code formatting across all files
 - Improved thematic consistency for all equipment
 - Fixed various bugs and improved performance

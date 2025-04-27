@@ -1,7 +1,7 @@
 Welcome to Armorillose Armory!
 Where your weapon needs are our specialty!
 
-v0.2.0.1 (Current)
+v0.2.0.1
 - Added three new weapons: Amethyst Soulreaver, Hellstone Inferno Blade, and Magma Katana
 - Added Crystal and Hellstone themed item categories
 - Updated documentation to include new items
