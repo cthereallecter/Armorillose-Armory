@@ -35,10 +35,10 @@ Armorillose Armory adds themed equipment based on early-game enemies:
 4. Enable the mod and restart tModLoader
 
 ## Crafting
-All items can be crafted at an Anvil or Work Bench using materials that drop from early-game enemies.
 
 ## Development
-This mod is open source and contributions are welcome. Please feel free to submit pull requests or issues on our GitHub repository.
+This mod is open source and contributions are welcome. 
+Please feel free to submit pull requests or issues on our GitHub repository.
 
 ## Credits
 - Created by C. Lecter
@@ -65,9 +65,9 @@ This mod is open source and contributions are welcome. Please feel free to submi
 - Added README and proper changelog
 
 ### v0.1.0.3
-- Added Watcher Armor Set
-- Started work on Reanimated Armor Set
-- Started work on Slime Armor Set
+- Started work on Watcher Armor Set (Finishing sprites)
+- Started work on Reanimated Armor Set (Finishing sprites)
+- Started work on Slime Armor Set (Finishing sprites)
 
 ### v0.1.0.2
 - Rebalanced existing items
