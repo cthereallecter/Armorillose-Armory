@@ -1,1 +1,23 @@
-This description will show up on the steam page, check out https://steamcommunity.com/comment/Guide/formattinghelp.
+Welcome to Armorillose Armory!
+Where your weapon needs are our specialty!
+
+v0.2.0.0 (Current)
+- Standardized code formatting across all files
+- Improved thematic consistency for all equipment
+- Fixed various bugs and improved performance
+- Enhanced visual effects for projectiles
+- Added README and proper changelog
+
+v0.1.0.3
+- Added Watcher Armor Set
+- Started work on Reanimated Armor Set
+- Started work on Slime Armor Set
+
+v0.1.0.2
+- Rebalanced existing items
+
+v0.1.0.1
+- Initial release
+- Added Slime-themed items: Congealed Slime Core, Slime Slinger, Slime Heart
+- Added Demon Eye-themed items: Demon Eye Lens, Eye Beam Staff, Eye of Perception
+- Added Zombie-themed items: Zombie Brain Fragment, Zombie Hand, Zombies Tenacity
