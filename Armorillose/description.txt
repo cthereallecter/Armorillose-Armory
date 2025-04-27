@@ -1,5 +1,13 @@
-Welcome to Armorillose Armory!
+ Welcome to Armorillose Armory!
 Where your weapon needs are our specialty!
+Please report bugs on Git: https://github.com/cthereallecter/Armorillose-Armory
+    as it is published open source
+
+v0.2.0.2
+- Increased Slime Slinger shoot speed
+- Removed Eye Beam Staff
+- Changed Demon Eye Lens sprite to match the Lens
+- Changed around recipes
 
 v0.2.0.1
 - Added three new weapons: Amethyst Soulreaver, Hellstone Inferno Blade, and Magma Katana

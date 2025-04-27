@@ -73,6 +73,36 @@ Items: {
 		DisplayName: Magma Katana
 		Tooltip: Slice through enemies with molten precision.
 	}
+
+	ReanimatedChestplate: {
+		DisplayName: Reanimated Chestplate
+		Tooltip: ""
+	}
+
+	ReanimatedGreaves: {
+		DisplayName: Reanimated Greaves
+		Tooltip: ""
+	}
+
+	ReanimatedHelmet: {
+		DisplayName: Reanimated Helmet
+		Tooltip: ""
+	}
+
+	SlimeChestplate: {
+		DisplayName: Slime Chestplate
+		Tooltip: ""
+	}
+
+	SlimeGreaves: {
+		DisplayName: Slime Greaves
+		Tooltip: ""
+	}
+
+	SlimeHelmet: {
+		DisplayName: Slime Helmet
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

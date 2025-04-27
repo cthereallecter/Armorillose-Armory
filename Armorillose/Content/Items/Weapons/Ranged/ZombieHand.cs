@@ -21,7 +21,7 @@ namespace Armorillose.Content.Items.Weapons.Ranged
             Item.rare = ItemRarityID.Blue;
 
             // Combat properties
-            Item.damage = 14;
+            Item.damage = 16;
             Item.DamageType = DamageClass.Ranged;
             Item.knockBack = 3f;
             Item.autoReuse = true;
@@ -34,7 +34,7 @@ namespace Armorillose.Content.Items.Weapons.Ranged
 
             // Projectile properties
             Item.shoot = ModContent.ProjectileType<Projectiles.ZombieHandProjectile>();
-            Item.shootSpeed = 12f;
+            Item.shootSpeed = 15f;
             Item.noMelee = true; // The projectile will do the damage, not the swing
             Item.noUseGraphic = true; // Don't show the item when used
         }
@@ -43,15 +43,22 @@ namespace Armorillose.Content.Items.Weapons.Ranged
         {
             // Iron variant recipe
             CreateRecipe()
-                .AddIngredient(ModContent.ItemType<Materials.ZombieBrainFragment>(), 10)
+                .AddIngredient(ModContent.ItemType<Materials.ZombieBrainFragment>(), 15)
                 .AddIngredient(ItemID.IronBar, 8)
                 .AddTile(TileID.Anvils)
                 .Register();
 
             // Lead variant recipe
             CreateRecipe()
-                .AddIngredient(ModContent.ItemType<Materials.ZombieBrainFragment>(), 10)
+                .AddIngredient(ModContent.ItemType<Materials.ZombieBrainFragment>(), 15)
                 .AddIngredient(ItemID.LeadBar, 8)
+                .AddTile(TileID.Anvils)
+                .Register();
+
+            // Tin variant recipe
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<Materials.ZombieBrainFragment>(), 15)
+                .AddIngredient(ItemID.TinBar, 8)
                 .AddTile(TileID.Anvils)
                 .Register();
         }

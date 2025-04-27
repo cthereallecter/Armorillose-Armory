@@ -14,7 +14,7 @@ namespace Armorillose.Content.Players
         public bool watcherArmorSet;
         
         private int regenTimer = 0;
-        private const int REGEN_DELAY = 60; // 60 ticks = 1 second
+        private const int REGEN_DELAY = 30; // 60 ticks = 1 second
 
         public override void ResetEffects()
         {
@@ -62,7 +62,7 @@ namespace Armorillose.Content.Players
                 {
                     regenTimer = 0;
                     Player.statLife = Math.Min(Player.statLife + 1, Player.statLifeMax2);
-                    Player.HealEffect(3);
+                    Player.HealEffect(4);
                 }
             }
             else
