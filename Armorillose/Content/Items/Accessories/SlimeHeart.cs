@@ -13,10 +13,7 @@ namespace Armorillose.Content.Items.Accessories
     public class SlimeHeart : ModItem
     {
         public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault and Tooltip.SetDefault are obsolete in newer tModLoader versions
-            // Localization is handled through .hjson files now
-            
+        {   
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 

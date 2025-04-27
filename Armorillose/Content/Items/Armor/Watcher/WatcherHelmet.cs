@@ -1,4 +1,3 @@
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.Creative;
 using Terraria.ID;
@@ -27,13 +26,14 @@ namespace Armorillose.Content.Items.Armor.Watcher
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == ModContent.ItemType<WatcherChestplate>() && legs.type == ModContent.ItemType<WatcherGreaves>();
+            return body.type == ModContent.ItemType<WatcherChestplate>() && 
+                   legs.type == ModContent.ItemType<WatcherGreaves>();
         }
 
         public override void UpdateArmorSet(Player player)
         {
             player.GetModPlayer<ArmorillosePlayer>().watcherArmorSet = true;
-            player.setBonus = "Increased vision radius at night, +10% ranged and +15% magic damage at night";
+            player.setBonus = "Increased vision radius at night, +10% ranged and magic damage at night";
         }
 
         public override void AddRecipes()

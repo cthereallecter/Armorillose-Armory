@@ -1,7 +1,4 @@
-using Microsoft.Xna.Framework;
-using System;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -29,8 +26,7 @@ namespace Armorillose.Content.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             // Register our custom player effect
-            var modPlayer = player.GetModPlayer<ZombiesTenacityPlayer>();
-            modPlayer.hasZombiesTenacity = true;
+            player.GetModPlayer<ZombiesTenacityPlayer>().hasZombiesTenacity = true;
         }
 
         public override void AddRecipes()

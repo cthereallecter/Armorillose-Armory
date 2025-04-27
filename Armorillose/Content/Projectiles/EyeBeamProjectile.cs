@@ -9,36 +9,39 @@ using Terraria.Enums;
 
 namespace Armorillose.Content.Projectiles
 {
+    /// <summary>
+    /// A channeled beam projectile that fires a continuous eye laser.
+    /// Used by the Eye Beam Staff weapon.
+    /// </summary>
     public class EyeBeamProjectile : ModProjectile
     {
         // Constants
-        private const float MaxBeamLength = 2000f; // Maximum length of the beam
-        private const int BeamWidth = 8; // Width of the beam
-        private const int DustSpawnRate = 2; // How often dust particles spawn along the beam
-        private const float ManaCostPerSecond = 10f; // Mana consumed per second while channeling
+        private const float MAX_BEAM_LENGTH = 2000f;
+        private const int BEAM_WIDTH = 32;
+        private const int DUST_SPAWN_RATE = 2;
+        private const float MANA_COST_PER_SECOND = 6f;
 
         // Properties to track beam state
-        private Vector2 beamStart;
-        private Vector2 beamEnd;
-        private float beamLength;
-        private float manaDrainTimer = 0f;
+        private Vector2 _beamStart;
+        private Vector2 _beamEnd;
+        private float _beamLength;
+        private float _manaDrainTimer = 0f;
         
         public override void SetStaticDefaults()
         {
+            // No special defaults needed
         }
         
         public override void SetDefaults()
         {
-            Projectile.width = BeamWidth;
-            Projectile.height = BeamWidth;
+            Projectile.width = BEAM_WIDTH;
+            Projectile.height = BEAM_WIDTH;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Magic;
             Projectile.penetrate = -1; // Infinite penetration
             Projectile.tileCollide = true;
             Projectile.timeLeft = 60; // Base time
-            
-            // Don't use vanilla AI styles
-            Projectile.aiStyle = -1;
+            Projectile.aiStyle = -1; // Custom AI
             Projectile.alpha = 255; // Start fully transparent
         }
         
@@ -49,9 +52,9 @@ namespace Armorillose.Content.Projectiles
             return Collision.CheckAABBvLineCollision(
                 targetHitbox.TopLeft(), 
                 targetHitbox.Size(), 
-                beamStart, 
-                beamEnd, 
-                BeamWidth, 
+                _beamStart, 
+                _beamEnd, 
+                BEAM_WIDTH, 
                 ref collisionPoint);
         }
         
@@ -65,14 +68,14 @@ namespace Armorillose.Content.Projectiles
                 Projectile.timeLeft = 5; // Reset time left while channeling
                 
                 // Drain mana continuously
-                manaDrainTimer++;
-                if (manaDrainTimer >= 60) // Once per second
+                _manaDrainTimer++;
+                if (_manaDrainTimer >= 60) // Once per second
                 {
-                    player.CheckMana((int)ManaCostPerSecond, true);
-                    manaDrainTimer = 0;
+                    player.CheckMana((int)MANA_COST_PER_SECOND, true);
+                    _manaDrainTimer = 0;
                 }
                 
-                // Calculate beam start position (from player center)
+                // Calculate beam start position
                 Vector2 playerHandPos = player.MountedCenter;
                 playerHandPos.Y -= 6; // Adjust to match player's hand position
                 
@@ -85,13 +88,13 @@ namespace Armorillose.Content.Projectiles
                 Projectile.velocity = beamDirection * 15f; // Keep velocity updated for rotation
                 
                 // Set the beam start position
-                beamStart = playerHandPos;
+                _beamStart = playerHandPos;
                 
                 // Custom raycast to find where beam hits
-                float rayLength = MaxBeamLength;
+                float rayLength = MAX_BEAM_LENGTH;
                 for (float i = 0; i < rayLength; i += 4f)
                 {
-                    Vector2 beamPos = beamStart + beamDirection * i;
+                    Vector2 beamPos = _beamStart + beamDirection * i;
                     
                     // Check for tile collision
                     if (Collision.SolidCollision(beamPos, 1, 1))
@@ -102,28 +105,13 @@ namespace Armorillose.Content.Projectiles
                 }
                 
                 // Calculate the beam end position
-                beamEnd = beamStart + beamDirection * rayLength;
-                beamLength = rayLength;
+                _beamEnd = _beamStart + beamDirection * rayLength;
+                _beamLength = rayLength;
                 
                 // Create dust particles along the beam
-                for (float i = 0; i < rayLength; i += DustSpawnRate)
-                {
-                    if (Main.rand.NextBool(3))
-                    {
-                        Vector2 dustPos = beamStart + beamDirection * i;
-                        Dust dust = Dust.NewDustDirect(
-                            dustPos, 
-                            1, 1, 
-                            DustID.RedTorch, 
-                            0f, 0f, 0, 
-                            new Color(255, 50, 50), 
-                            Main.rand.NextFloat(0.5f, 1.0f));
-                        dust.noGravity = true;
-                        dust.velocity = beamDirection.RotatedBy(Main.rand.NextFloat(-0.3f, 0.3f)) * Main.rand.NextFloat(1f, 3f);
-                    }
-                }
+                SpawnBeamDust(beamDirection, rayLength);
                 
-                // Play continuous sound
+                // Play continuous sound occasionally
                 if (Main.rand.NextBool(5))
                 {
                     SoundEngine.PlaySound(SoundID.Item33, Projectile.position);
@@ -142,27 +130,46 @@ namespace Armorillose.Content.Projectiles
             }
         }
         
+        private void SpawnBeamDust(Vector2 beamDirection, float rayLength)
+        {
+            for (float i = 0; i < rayLength; i += DUST_SPAWN_RATE)
+            {
+                if (Main.rand.NextBool(3))
+                {
+                    Vector2 dustPos = _beamStart + beamDirection * i;
+                    Dust dust = Dust.NewDustDirect(
+                        dustPos, 
+                        1, 1, 
+                        DustID.RedTorch, 
+                        0f, 0f, 0, 
+                        new Color(255, 50, 50), 
+                        Main.rand.NextFloat(0.5f, 1.0f));
+                    dust.noGravity = true;
+                    dust.velocity = beamDirection.RotatedBy(Main.rand.NextFloat(-0.3f, 0.3f)) * Main.rand.NextFloat(1f, 3f);
+                }
+            }
+        }
+        
         public override bool PreDraw(ref Color lightColor)
         {
             // Draw the beam
-            if (beamLength > 0)
+            if (_beamLength > 0)
             {
                 // Prepare the beam texture
                 Texture2D beamTexture = ModContent.Request<Texture2D>("Armorillose/Content/Projectiles/EyeBeamProjectile").Value;
-                Vector2 drawOrigin = new Vector2(beamTexture.Width * 0.5f, beamTexture.Height * 0.5f);
                 
                 // Calculate beam drawing parameters
-                Vector2 beamDirection = beamEnd - beamStart;
+                Vector2 beamDirection = _beamEnd - _beamStart;
                 float rotation = beamDirection.ToRotation() - MathHelper.PiOver2;
                 
                 // Draw beam segments
-                float scaleY = beamLength / beamTexture.Height;
+                float scaleY = _beamLength / beamTexture.Height;
                 Color beamColor = new Color(255, 50, 50, 150);
                 
                 // Draw the beam
                 Main.EntitySpriteDraw(
                     beamTexture,
-                    beamStart - Main.screenPosition,
+                    _beamStart - Main.screenPosition,
                     new Rectangle(0, 0, beamTexture.Width, beamTexture.Height),
                     beamColor,
                     rotation,
@@ -170,19 +177,6 @@ namespace Armorillose.Content.Projectiles
                     new Vector2(1f, scaleY),
                     SpriteEffects.None,
                     0);
-                
-                // Draw glow effect at beam end
-                // Texture2D glowTexture = ModContent.Request<Texture2D>("YourModNamespace/Projectiles/EyeBeamGlow").Value;
-                // Main.EntitySpriteDraw(
-                //     glowTexture,
-                //     beamEnd - Main.screenPosition,
-                //     new Rectangle(0, 0, glowTexture.Width, glowTexture.Height),
-                //     beamColor,
-                //     0f,
-                //     new Vector2(glowTexture.Width * 0.5f, glowTexture.Height * 0.5f),
-                //     1f,
-                //     SpriteEffects.None,
-                //     0);
             }
             
             return false; // Don't draw the projectile normally
@@ -192,7 +186,7 @@ namespace Armorillose.Content.Projectiles
         {
             // Allow the beam to cut things like grass
             DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
-            Utils.PlotTileLine(beamStart, beamEnd, BeamWidth, DelegateMethods.CutTiles);
+            Utils.PlotTileLine(_beamStart, _beamEnd, BEAM_WIDTH, DelegateMethods.CutTiles);
         }
     }
 }

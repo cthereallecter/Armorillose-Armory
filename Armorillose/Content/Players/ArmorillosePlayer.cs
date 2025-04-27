@@ -61,8 +61,8 @@ namespace Armorillose.Content.Players
                 if (regenTimer >= REGEN_DELAY)
                 {
                     regenTimer = 0;
-                    Player.statLife = Math.Min(Player.statLife + 1, Player.statLifeMax);
-                    Player.HealEffect(1);
+                    Player.statLife = Math.Min(Player.statLife + 1, Player.statLifeMax2);
+                    Player.HealEffect(3);
                 }
             }
             else
@@ -79,7 +79,7 @@ namespace Armorillose.Content.Players
                 
                 // +10% ranged and magic damage at night
                 Player.GetDamage(DamageClass.Ranged) += 0.1f;
-                Player.GetDamage(DamageClass.Magic) += 0.1f;
+                Player.GetDamage(DamageClass.Magic) += 0.15f; // Changed to 15% as per set bonus description
             }
         }
     }

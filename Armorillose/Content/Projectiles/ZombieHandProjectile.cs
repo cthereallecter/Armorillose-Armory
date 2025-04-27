@@ -8,23 +8,30 @@ using Terraria.Audio;
 
 namespace Armorillose.Content.Projectiles
 {
+    /// <summary>
+    /// A throwable zombie hand projectile that extends, steals life on hit, and retracts back to the player.
+    /// Used by the Zombie Hand weapon.
+    /// </summary>
     public class ZombieHandProjectile : ModProjectile
     {
-        // Properties
-        private const float MaxExtendDistance = 300f;
-        private const int LifestealAmount = 8; // HP recovered per hit
-        private const float RetractSpeed = 15f;
+        // Constants
+        private const float MAX_EXTEND_DISTANCE = 300f;
+        private const int LIFESTEAL_AMOUNT = 8; // HP recovered per hit
+        private const float RETRACT_SPEED = 15f;
+        private const float RETRACT_DELAY = 20f; // Ticks before retracting
+        private const float CLOSE_DISTANCE = 20f; // Distance to player to kill projectile
 
-        // AI fields
-        private bool initialized = false;
-        private Vector2 initialPosition;
-        private float maxDistance = 0f;
-        private float retractTimer = 0f;
-        private bool isRetracting = false;
-        private int targetNPC = -1;
+        // Fields
+        private bool _initialized = false;
+        private Vector2 _initialPosition;
+        private float _maxDistance = 0f;
+        private float _retractTimer = 0f;
+        private bool _isRetracting = false;
+        private int _targetNPC = -1;
 
         public override void SetStaticDefaults()
         {
+            // No special defaults needed
         }
 
         public override void SetDefaults()
@@ -38,9 +45,7 @@ namespace Armorillose.Content.Projectiles
             Projectile.timeLeft = 600; // 10 seconds max life
             Projectile.ignoreWater = true;
             Projectile.extraUpdates = 1; // Moves at 60fps instead of 30fps
-
-            // Custom movement - don't use vanilla ai styles
-            Projectile.aiStyle = -1;
+            Projectile.aiStyle = -1; // Custom movement - don't use vanilla AI styles
         }
 
         public override void AI()
@@ -48,64 +53,25 @@ namespace Armorillose.Content.Projectiles
             Player player = Main.player[Projectile.owner];
 
             // Initialize on first update
-            if (!initialized)
+            if (!_initialized)
             {
-                initialPosition = Projectile.position;
+                _initialPosition = Projectile.position;
                 SoundEngine.PlaySound(SoundID.NPCHit1, Projectile.position); // Fleshy sound on extend
-                initialized = true;
+                _initialized = true;
             }
 
             // Keep the player from using other items while hand is extended
             player.itemAnimation = player.itemTime = 2;
-            player.itemRotation = (float)Math.Atan2(Projectile.velocity.Y * Projectile.direction, Projectile.velocity.X * Projectile.direction);
+            player.itemRotation = (float)Math.Atan2(
+                Projectile.velocity.Y * Projectile.direction, 
+                Projectile.velocity.X * Projectile.direction);
 
             // Calculate current distance from player
             Vector2 playerCenter = player.MountedCenter;
             float currentDistance = Vector2.Distance(playerCenter, Projectile.Center);
 
-            // Set max distance if not already set
-            if (maxDistance == 0f)
-            {
-                maxDistance = Math.Min(Vector2.Distance(playerCenter, playerCenter + Projectile.velocity * 20f), MaxExtendDistance);
-            }
-
-            // Manage extension and retraction
-            if (!isRetracting)
-            {
-                // Check if hand reached max distance or hit a tile
-                if (currentDistance >= maxDistance || Projectile.velocity.Length() < 0.1f)
-                {
-                    isRetracting = true;
-                    retractTimer = 0f;
-                    targetNPC = -1; // Reset target when retracting
-
-                    // Slight pause at full extension
-                    Projectile.velocity = Vector2.Zero;
-                    Projectile.netUpdate = true;
-                }
-            }
-            else
-            {
-                // Retraction logic
-                retractTimer += 1f;
-
-                // Retract starts after a brief delay
-                if (retractTimer >= 20f)
-                {
-                    Vector2 direction = playerCenter - Projectile.Center;
-                    direction.Normalize();
-
-                    // Gradually increase retraction speed
-                    float speed = Math.Min(RetractSpeed, RetractSpeed * (retractTimer - 20f) / 20f);
-                    Projectile.velocity = direction * speed;
-
-                    // Check if hand returned to player
-                    if (currentDistance < 20f)
-                    {
-                        Projectile.Kill();
-                    }
-                }
-            }
+            // Handle extension and retraction logic
+            HandleMovement(player, playerCenter, currentDistance);
 
             // Rotate projectile based on its velocity
             if (Projectile.velocity != Vector2.Zero)
@@ -114,6 +80,62 @@ namespace Armorillose.Content.Projectiles
             }
 
             // Create dust trail effect
+            CreateTrailEffect();
+        }
+
+        private void HandleMovement(Player player, Vector2 playerCenter, float currentDistance)
+        {
+            // Set max distance if not already set
+            if (_maxDistance == 0f)
+            {
+                _maxDistance = Math.Min(
+                    Vector2.Distance(playerCenter, playerCenter + Projectile.velocity * 20f), 
+                    MAX_EXTEND_DISTANCE);
+            }
+
+            if (!_isRetracting)
+            {
+                // Check if hand reached max distance or hit a tile
+                if (currentDistance >= _maxDistance || Projectile.velocity.Length() < 0.1f)
+                {
+                    BeginRetraction();
+                }
+            }
+            else
+            {
+                // Retraction logic
+                _retractTimer += 1f;
+
+                // Retract starts after a brief delay
+                if (_retractTimer >= RETRACT_DELAY)
+                {
+                    Vector2 direction = playerCenter - Projectile.Center;
+                    direction.Normalize();
+
+                    // Gradually increase retraction speed
+                    float speed = Math.Min(RETRACT_SPEED, RETRACT_SPEED * (_retractTimer - RETRACT_DELAY) / RETRACT_DELAY);
+                    Projectile.velocity = direction * speed;
+
+                    // Check if hand returned to player
+                    if (currentDistance < CLOSE_DISTANCE)
+                    {
+                        Projectile.Kill();
+                    }
+                }
+            }
+        }
+
+        private void BeginRetraction()
+        {
+            _isRetracting = true;
+            _retractTimer = 0f;
+            _targetNPC = -1; // Reset target when retracting
+            Projectile.velocity = Vector2.Zero;
+            Projectile.netUpdate = true;
+        }
+
+        private void CreateTrailEffect()
+        {
             if (Main.rand.NextBool(5))
             {
                 Dust dust = Dust.NewDustDirect(
@@ -132,11 +154,7 @@ namespace Armorillose.Content.Projectiles
             Player player = Main.player[Projectile.owner];
 
             // Lifesteal effect
-            if (player.statLife < player.statLifeMax2)
-            {
-                player.statLife += LifestealAmount;
-                player.HealEffect(LifestealAmount);
-            }
+            PerformLifesteal(player);
 
             // Visual effect for lifesteal
             for (int i = 0; i < 5; i++)
@@ -152,24 +170,29 @@ namespace Armorillose.Content.Projectiles
             }
 
             // Force retract after hitting an enemy
-            if (!isRetracting)
+            if (!_isRetracting)
             {
-                isRetracting = true;
-                retractTimer = 0f;
-                targetNPC = target.whoAmI; // Remember which NPC we hit
-                Projectile.netUpdate = true;
+                BeginRetraction();
+                _targetNPC = target.whoAmI; // Remember which NPC we hit
             }
 
             // Playing a hit sound
             SoundEngine.PlaySound(SoundID.NPCHit18, target.position);
         }
 
+        private void PerformLifesteal(Player player)
+        {
+            if (player.statLife < player.statLifeMax2)
+            {
+                player.statLife += LIFESTEAL_AMOUNT;
+                player.HealEffect(LIFESTEAL_AMOUNT);
+            }
+        }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             // Start retracting if we hit a tile
-            isRetracting = true;
-            retractTimer = 0f;
-            Projectile.velocity = Vector2.Zero;
+            BeginRetraction();
 
             // Play sound effect
             SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
@@ -177,7 +200,10 @@ namespace Armorillose.Content.Projectiles
             // Create dust effect
             for (int i = 0; i < 8; i++)
             {
-                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height,
+                Dust.NewDust(
+                    Projectile.position, 
+                    Projectile.width, 
+                    Projectile.height,
                     DustID.Blood,
                     oldVelocity.X * 0.2f,
                     oldVelocity.Y * 0.2f);
@@ -186,7 +212,7 @@ namespace Armorillose.Content.Projectiles
             return false; // Don't destroy on tile collision
         }
 
-        // Optional: Draw a chain/rope between player and hand
+        // Draw a chain between player and hand
         public override bool PreDraw(ref Color lightColor)
         {
             Player player = Main.player[Projectile.owner];
@@ -197,29 +223,38 @@ namespace Armorillose.Content.Projectiles
             float distance = distToProj.Length();
 
             // Draw the chain
+            DrawChain(playerCenter, center, projRotation, distance, lightColor);
+
+            return true;
+        }
+        
+        private void DrawChain(Vector2 playerCenter, Vector2 center, float projRotation, float distance, Color lightColor)
+        {
+            Texture2D texture = ModContent.Request<Texture2D>("Armorillose/Content/Projectiles/ZombieHandChain").Value;
+
+            int segmentIndex = 0; // To alternate rotation
+
             while (distance > 30f)
             {
-                // Get texture for the chain
-                Texture2D texture = ModContent.Request<Texture2D>("Armorillose/Content/Projectiles/ZombieHandChain").Value;
-
-                // Position of the chain segment
                 distance -= 16f;
-                Vector2 drawPos = center + distToProj * distance / distToProj.Length();
+                Vector2 drawPos = center + (playerCenter - center) * distance / (playerCenter - center).Length();
 
-                // Draw the chain segment
+                // Alternate rotation between 90 degrees and 270 degrees
+                float rotation = (segmentIndex % 2 == 0) ? MathHelper.PiOver2 : MathHelper.PiOver2 * 3f;
+
                 Main.EntitySpriteDraw(
                     texture,
                     drawPos - Main.screenPosition,
                     new Rectangle(0, 0, texture.Width, texture.Height),
                     lightColor,
-                    projRotation,
+                    rotation,
                     new Vector2(texture.Width * 0.5f, texture.Height * 0.5f),
                     1f,
                     SpriteEffects.None,
                     0);
-            }
 
-            return true;
+                segmentIndex++;
+            }
         }
     }
 }

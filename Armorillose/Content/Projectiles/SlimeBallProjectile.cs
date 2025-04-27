@@ -2,19 +2,28 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 using System;
 
 namespace Armorillose.Content.Projectiles
 {
+    /// <summary>
+    /// A bouncing slime ball projectile that loses damage over time.
+    /// Used by the Slime Slinger weapon.
+    /// </summary>
     public class SlimeBallProjectile : ModProjectile
     {
-        // Track number of bounces
-        private int bounceCount = 0;
-        private const int MaxBounces = 4;
-        private const float DamageReductionPerBounce = 0.12f; // 12% damage reduction per bounce
+        // Constants
+        private const int MAX_BOUNCES = 4;
+        private const float DAMAGE_REDUCTION_PER_BOUNCE = 0.12f; // 12% damage reduction per bounce
+        private const float BOUNCE_VELOCITY_MULTIPLIER = 0.8f;
+        
+        // Fields
+        private int _bounceCount = 0;
 
         public override void SetStaticDefaults()
         {
+            // No special defaults needed
         }
 
         public override void SetDefaults()
@@ -23,7 +32,7 @@ namespace Armorillose.Content.Projectiles
             Projectile.height = 12;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.penetrate = -1; // Will bounce until MaxBounces is reached
+            Projectile.penetrate = -1; // Will bounce until MAX_BOUNCES is reached
             Projectile.timeLeft = 600; // 10 seconds
             Projectile.alpha = 50; // Slight transparency
             Projectile.light = 0.1f; // Small light emission
@@ -31,62 +40,73 @@ namespace Armorillose.Content.Projectiles
             Projectile.tileCollide = true;
             Projectile.extraUpdates = 1; // Moves at 60fps instead of 30fps
             
-            // Custom bounce behavior
-            Projectile.aiStyle = 1; // Throws projectile style for initial behavior
+            // Use basic projectile physics
+            Projectile.aiStyle = 1;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            bounceCount++;
+            _bounceCount++;
             
             // Create bounce dust effect
-            for (int i = 0; i < 5; i++)
-            {
-                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 
-                    DustID.t_Slime, 
-                    Projectile.velocity.X * 0.1f, 
-                    Projectile.velocity.Y * 0.1f);
-            }
+            CreateImpactDust(5);
             
             // Play bounce sound
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
+            SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
             
             // Calculate new velocity after bounce (with slightly diminished speed)
-            if (Math.Abs(Projectile.velocity.X - oldVelocity.X) > float.Epsilon)
-            {
-                Projectile.velocity.X = -oldVelocity.X * 0.8f;
-            }
-            if (Math.Abs(Projectile.velocity.Y - oldVelocity.Y) > float.Epsilon)
-            {
-                Projectile.velocity.Y = -oldVelocity.Y * 0.8f;
-            }
+            HandleBouncePhysics(oldVelocity);
             
-            // After MaxBounces, destroy the projectile
-            if (bounceCount >= MaxBounces)
+            // After MAX_BOUNCES, destroy the projectile
+            if (_bounceCount >= MAX_BOUNCES)
             {
                 // Create a slime splash effect on final impact
-                for (int i = 0; i < 15; i++)
-                {
-                    Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 
-                        DustID.t_Slime, 
-                        oldVelocity.X * 0.25f, 
-                        oldVelocity.Y * 0.25f);
-                }
+                CreateImpactDust(15);
                 Projectile.Kill();
             }
             
             return false; // Don't destroy on tile collision (handled manually)
         }
         
+        private void HandleBouncePhysics(Vector2 oldVelocity)
+        {
+            if (Math.Abs(Projectile.velocity.X - oldVelocity.X) > float.Epsilon)
+            {
+                Projectile.velocity.X = -oldVelocity.X * BOUNCE_VELOCITY_MULTIPLIER;
+            }
+            
+            if (Math.Abs(Projectile.velocity.Y - oldVelocity.Y) > float.Epsilon)
+            {
+                Projectile.velocity.Y = -oldVelocity.Y * BOUNCE_VELOCITY_MULTIPLIER;
+            }
+        }
+        
+        private void CreateImpactDust(int dustCount)
+        {
+            for (int i = 0; i < dustCount; i++)
+            {
+                Dust.NewDust(
+                    Projectile.position, 
+                    Projectile.width, 
+                    Projectile.height, 
+                    DustID.t_Slime, 
+                    Projectile.velocity.X * 0.25f, 
+                    Projectile.velocity.Y * 0.25f);
+            }
+        }
+        
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             // Reduce projectile damage for subsequent hits
-            Projectile.damage = (int)(Projectile.damage * (1f - DamageReductionPerBounce));
+            Projectile.damage = (int)(Projectile.damage * (1f - DAMAGE_REDUCTION_PER_BOUNCE));
             
             // Create slime particle effect on hit
             for (int i = 0; i < 8; i++)
             {
-                Dust.NewDust(target.position, target.width, target.height, 
+                Dust.NewDust(
+                    target.position, 
+                    target.width, 
+                    target.height, 
                     DustID.t_Slime, 
                     Projectile.velocity.X * 0.2f, 
                     Projectile.velocity.Y * 0.2f);
@@ -95,7 +115,7 @@ namespace Armorillose.Content.Projectiles
         
         public override void AI()
         {
-            // Projectile rotation
+            // Projectile rotation based on velocity
             Projectile.rotation += 0.2f * Projectile.velocity.X * 0.1f;
             
             // Trail effect

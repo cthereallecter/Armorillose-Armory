@@ -1,15 +1,9 @@
-using Microsoft.Xna.Framework;
-using System;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.GameContent.Creative;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.DataStructures; // Add this line to import PlayerDrawSet
 
 namespace Armorillose.Content.Players
 {
-
     public class ZombiesTenacityPlayer : ModPlayer
     {
         public bool hasZombiesTenacity = false;
@@ -38,15 +32,14 @@ namespace Armorillose.Content.Players
             }
         }
 
-        // Let's use ModifyHurt instead of PreHurt
         public override void ModifyHurt(ref Player.HurtModifiers modifiers)
         {
             if (hasZombiesTenacity && tenacityCooldown <= 0 && !tenacityActive)
             {
                 // Activate the effect when hit
                 tenacityActive = true;
-                tenacityActiveTime = 90; // 1.5 seconds (60 ticks per second)
-                tenacityCooldown = 1200; // 20 seconds cooldown
+                tenacityActiveTime = 180; // 3 seconds (60 ticks per second)
+                tenacityCooldown = 600; // 10 seconds cooldown
 
                 // Still take normal damage from this hit
             }

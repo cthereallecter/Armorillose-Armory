@@ -1,6 +1,4 @@
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,7 +8,7 @@ using Armorillose.Content.Items.Materials;
 namespace Armorillose.Content.NPCs
 {
     /// <summary>
-    /// Handles global NPC modifications, including drop rules for our custom materials.
+    /// Handles global NPC modifications, including drop rules for custom materials.
     /// </summary>
     public class ModifyNPC : GlobalNPC
     {
