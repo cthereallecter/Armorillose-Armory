@@ -13,7 +13,7 @@ Armorillose Armory adds themed equipment based on early-game enemies:
 ### 👁️ Demon Eye-themed Items
 - **Demon Eye Lens**: Crafting material dropped by Demon Eyes
 - **Eye of Perception**: An accessory that increases critical strike chance and adds hunter effect
-- **Watcher Armor Set**: Provides night vision and damage boosts during nighttime
+- **Watcher Armor Set**: Provides night vision and damage boosts during nighttime (Work in Progress)
 
 ### 🧟 Zombie-themed Items
 - **Zombie Brain Fragment**: Crafting material dropped by zombies
