@@ -12,7 +12,6 @@ Armorillose Armory adds themed equipment based on early-game enemies:
 
 ### 👁️ Demon Eye-themed Items
 - **Demon Eye Lens**: Crafting material dropped by Demon Eyes
-- **Eye Beam Staff**: A magic weapon that fires a continuous laser beam
 - **Eye of Perception**: An accessory that increases critical strike chance and adds hunter effect
 - **Watcher Armor Set**: Provides night vision and damage boosts during nighttime
 
@@ -46,6 +45,12 @@ This mod is open source and contributions are welcome. Please feel free to submi
 - Special thanks to the tModLoader team and community
 
 ## Changelog
+### v0.2.0.2
+- Increased Slime Slinger shoot speed
+- Removed Eye Beam Staff
+- Changed Demon Eye Lens sprite to match the Lens
+- Changed around recipes
+
 ### v0.2.0.1
 - Added three new weapons: Amethyst Soulreaver, Hellstone Inferno Blade, and Magma Katana
 - Added Crystal and Hellstone themed item categories
