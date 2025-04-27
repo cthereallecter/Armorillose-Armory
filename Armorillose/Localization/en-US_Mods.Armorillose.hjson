@@ -1,0 +1,104 @@
+Items: {
+	CongealedSlimeCore: {
+		DisplayName: Congealed Slime Core
+		Tooltip:
+			'''
+			The solidified core of a slime
+			Used to craft slime-based equipment
+			'''
+	}
+
+	DemonEyeLens: {
+		DisplayName: Demon Eye Lens
+		Tooltip:
+			'''
+			A mysterious crystalline lens from a Demon Eye
+			Sparks with latent magical energy
+			'''
+	}
+
+	EyeBeamStaff: {
+		DisplayName: Eye Beam Staff
+		Tooltip:
+			'''
+			Fires a continuous beam of demonic energy
+			Beam pierces through enemies
+			'''
+	}
+
+	EyeOfPerception: {
+		DisplayName: Eye Of Perception
+		ToolTip:
+			'''
+			Reveals nearby enemies on map and increases critical strike chance
+			+3% critical strike chance
+			'''
+		Tooltip: ""
+	}
+
+	SlimeHeart: {
+		DisplayName: Slime Heart
+		Tooltip:
+			'''
+			Increases health regeneration when below 50% health
+			+2 HP/sec regen when below half health
+			'''
+	}
+
+	SlimeSlinger: {
+		DisplayName: Slime Slinger
+		Tooltip:
+			'''
+			Fires bouncing slime projectiles
+			Each bounce reduces damage by 12%
+			'''
+	}
+
+	ZombieBrainFragment: {
+		DisplayName: Zombie Brain Fragment
+		Tooltip:
+			'''
+			A partially intact fragment of a zombie's brain
+			Still twitches occasionally
+			'''
+	}
+
+	ZombieHand: {
+		DisplayName: Zombie Hand
+		Tooltip:
+			'''
+			A severed zombie hand that extends like a whip
+			Steals life from enemies
+			'''
+	}
+
+	ZombiesTenacity: {
+		DisplayName: Zombie's Tenacity
+		Tooltip:
+			'''
+			Grants brief invincibility after taking damage
+			1.5 seconds of invulnerability after being hit (20-second cooldown)
+			'''
+	}
+
+	WatcherChestplate: {
+		DisplayName: Watcher Chestplate
+		Tooltip: ""
+	}
+
+	WatcherGreaves: {
+		DisplayName: Watcher Greaves
+		Tooltip: ""
+	}
+
+	WatcherHelmet: {
+		DisplayName: Watcher Helmet
+		Tooltip: ""
+	}
+}
+
+Projectiles: {
+	EyeBeamProjectile.DisplayName: Eye Beam Projectile
+	SlimeBallProjectile.DisplayName: Slime Ball Projectile
+	ZombieHandProjectile.DisplayName: Zombie Hand Projectile
+}

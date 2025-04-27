@@ -1,0 +1,12 @@
+Mods: {
+	Armorillos: {
+		Items: {
+			SlimeFlail: {
+				DisplayName: Slime Flail
+				Tooltip: ""
+			}
+		}
+
+		Projectiles.SlimeFlailProjectile.DisplayName: Slime Flail Projectile
+	}
+}
