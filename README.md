@@ -46,7 +46,7 @@ This mod is open source and contributions are welcome. Please feel free to submi
 - Special thanks to the tModLoader team and community
 
 ## Changelog
-### v0.2.0.1 (Current)
+### v0.2.0.1
 - Added three new weapons: Amethyst Soulreaver, Hellstone Inferno Blade, and Magma Katana
 - Added Crystal and Hellstone themed item categories
 - Updated documentation to include new items
