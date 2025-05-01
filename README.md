@@ -1,9 +1,7 @@
 # Armorillose Armory
-A content mod for Terraria using tModLoader v2025.2.3.3, focused on adding new themed armor sets and weapons crafted from early-game monster drops.
+A content mod for Terraria using tModLoader v2025.2.3.3
 
 ## Features
-Armorillose Armory adds themed equipment based on early-game enemies:
-
 ### 🟢 Slime-themed Items
 - **Congealed Slime Core**: Crafting material dropped by slimes
 - **Slime Slinger**: A ranged weapon that fires bouncy slime balls
