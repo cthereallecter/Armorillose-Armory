@@ -1,3 +1,4 @@
+// v0.2.0.3
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -5,6 +6,8 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.Creative;
+
+using Armorillose.Content.Projectiles;
 
 namespace Armorillose.Content.Items.Tools
 {
@@ -33,10 +36,10 @@ namespace Armorillose.Content.Items.Tools
             Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            
+
             // Pickaxe power (150%)
             Item.pick = 150;
-            
+
             // Also acts as a weapon
             Item.noUseGraphic = false; // Show the item when used
             Item.noMelee = false; // The projectile will do damage
@@ -86,13 +89,13 @@ namespace Armorillose.Content.Items.Tools
                 Vector2 speed = Main.rand.NextVector2CircularEdge(1f, 1f);
                 float scale = Main.rand.NextFloat(1f, 2.5f);
                 float distance = Main.rand.NextFloat(30f, 70f);
-                
+
                 Dust dust = Dust.NewDustPerfect(
                     position + speed * distance / 2,
                     DustID.Torch,
                     speed * Main.rand.NextFloat(2f, 8f),
                     Scale: scale);
-                
+
                 dust.noGravity = true;
                 dust.fadeIn = 1f;
             }
@@ -109,7 +112,7 @@ namespace Armorillose.Content.Items.Tools
                     (int)(owner.HeldItem.damage * 0.75f),
                     owner.HeldItem.knockBack,
                     owner.whoAmI);
-                
+
                 // Break weak blocks in a small area (only in PvE)
                 if (!Main.invasionType.HasValue && !Main.pumpkinMoon && !Main.snowMoon && !Main.bloodMoon)
                 {
@@ -122,11 +125,11 @@ namespace Armorillose.Content.Items.Tools
         {
             // Define the radius of block destruction
             int radius = 1;
-            
+
             // Get the tile coordinates at the center
             int centerX = (int)(center.X / 16f);
             int centerY = (int)(center.Y / 16f);
-            
+
             // Iterate through the surrounding tiles
             for (int x = centerX - radius; x <= centerX + radius; x++)
             {
@@ -135,77 +138,33 @@ namespace Armorillose.Content.Items.Tools
                     // Skip if outside the world
                     if (x < 0 || x >= Main.maxTilesX || y < 0 || y >= Main.maxTilesY)
                         continue;
-                    
+
                     // Get the tile reference
                     Tile tile = Main.tile[x, y];
-                    
+
                     // Skip if no tile is present
                     if (tile == null || !tile.HasTile)
                         continue;
-                    
+
                     // Check if the tile is weak enough to be broken
                     // Only destroy weaker tiles like dirt, stone, clay, sand, etc.
-                    if (Main.tileDungeon[tile.TileType] || 
-                        TileID.Sets.Conversion.Sand[tile.TileType] || 
-                        tile.TileType == TileID.Dirt || 
-                        tile.TileType == TileID.Stone || 
-                        tile.TileType == TileID.ClayBlock || 
-                        tile.TileType == TileID.Sand || 
+                    if (Main.tileDungeon[tile.TileType] ||
+                        TileID.Sets.Conversion.Sand[tile.TileType] ||
+                        tile.TileType == TileID.Dirt ||
+                        tile.TileType == TileID.Stone ||
+                        tile.TileType == TileID.ClayBlock ||
+                        tile.TileType == TileID.Sand ||
                         tile.TileType == TileID.Gravel)
                     {
                         // Break the tile
                         WorldGen.KillTile(x, y, false, false, false);
-                        
+
                         // If in multiplayer, sync the changes
                         if (Main.netMode == NetmodeID.MultiplayerClient)
                             NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, x, y);
                     }
                 }
             }
-        }
-    }
-
-    public class DrillbreakerExplosion : ModProjectile
-    {
-        public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.SolarWhipSwordExplosion;
-
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Drillbreaker Explosion");
-        }
-
-        public override void SetDefaults()
-        {
-            Projectile.width = 100;
-            Projectile.height = 100;
-            Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Melee;
-            Projectile.penetrate = -1;
-            Projectile.timeLeft = 3;
-            Projectile.tileCollide = false;
-            Projectile.hide = true; // Important: otherwise explosion would show the original texture
-            Projectile.alpha = 255; // Make it invisible
-        }
-
-        public override void AI()
-        {
-            // Do nothing, just wait for time to expire
-        }
-
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
-            // Use a circle collider for better explosion feeling
-            return Collision.CheckAABBvCircle(
-                targetHitbox.TopLeft(),
-                targetHitbox.Size(),
-                Projectile.Center,
-                Projectile.width / 2);
-        }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            // Apply OnFire to enemies hit
-            target.AddBuff(BuffID.OnFire, 180);
         }
     }
 }

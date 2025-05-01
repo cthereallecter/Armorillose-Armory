@@ -1,3 +1,4 @@
+// v0.2.0.0
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;

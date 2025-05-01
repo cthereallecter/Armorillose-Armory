@@ -1,39 +1,33 @@
 // v0.2.0.3
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
-using Terraria.DataStructures;
-using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace Armorillose.Content.Projectiles
 {
-    public class EchoDetonatorExplosion : ModProjectile
+    public class DrillbreakerExplosion : ModProjectile
     {
-        public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.DaybreakExplosion;
+        public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.SolarWhipSwordExplosion;
 
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Echo Explosion");
+            // DisplayName.SetDefault("Drillbreaker Explosion");
         }
 
         public override void SetDefaults()
         {
-            Projectile.width = 120;
-            Projectile.height = 120;
+            Projectile.width = 100;
+            Projectile.height = 100;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Summon;
+            Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 5;
+            Projectile.timeLeft = 3;
             Projectile.tileCollide = false;
-            Projectile.hide = true;
-            Projectile.alpha = 255;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = -1; // Hit once
+            Projectile.hide = true; // Important: otherwise explosion would show the original texture
+            Projectile.alpha = 255; // Make it invisible
         }
 
         public override void AI()
@@ -49,6 +43,12 @@ namespace Armorillose.Content.Projectiles
                 targetHitbox.Size(),
                 Projectile.Center,
                 Projectile.width / 2);
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            // Apply OnFire to enemies hit
+            target.AddBuff(BuffID.OnFire, 180);
         }
     }
 }

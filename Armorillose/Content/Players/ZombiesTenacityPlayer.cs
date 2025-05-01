@@ -1,3 +1,4 @@
+// v0.2.0.0
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.DataStructures; // Add this line to import PlayerDrawSet

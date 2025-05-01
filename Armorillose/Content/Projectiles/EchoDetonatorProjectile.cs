@@ -1,3 +1,4 @@
+// v0.2.0.3
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -8,6 +9,8 @@ using Terraria.DataStructures;
 using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
+
+using Armorillose.Content.Players;
 
 namespace Armorillose.Content.Projectiles
 {

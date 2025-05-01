@@ -1,3 +1,4 @@
+// v0.2.0.3
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
