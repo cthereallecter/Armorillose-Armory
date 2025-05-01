@@ -1,3 +1,0 @@
-displayName = Armorillose Armory
-author = C. Lecter
-version = 0.2.0.2
