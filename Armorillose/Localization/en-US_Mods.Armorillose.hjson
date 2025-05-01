@@ -44,11 +44,6 @@ Items: {
 		Tooltip: A scrap of stubborn, twitching memory.
 	}
 
-	EyeBeamStaff: {
-		DisplayName: Eye Beam Staff
-		Tooltip: Shoots concentrated beams of piercing vision.
-	}
-
 	SlimeSlinger: {
 		DisplayName: Slime Slinger
 		Tooltip: Launches globs of sticky chaos.
@@ -106,7 +101,6 @@ Items: {
 }
 
 Projectiles: {
-	EyeBeamProjectile.DisplayName: Eye Beam Projectile
 	SlimeBallProjectile.DisplayName: Slime Ball Projectile
 	ZombieHandProjectile.DisplayName: Zombie Hand Projectile
 }
