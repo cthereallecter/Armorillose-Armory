@@ -3,11 +3,21 @@ Where your weapon needs are our specialty!
 Please report bugs on Git: https://github.com/cthereallecter/Armorillose-Armory
     as it is published open source
 
+v0.2.0.3
+- Adding Prismatic Glaive (W.I.P)
+- Adding Venomous Embrace (W.I.P)
+- Adding Subzero Catalyst (W.I.P)
+- Adding Hivemind Quiver (W.I.P)
+- Adding Drillbreaker Gauntlets (W.I.P)
+- Adding Echo Detonator (W.I.P)
+
 v0.2.0.2
 - Increased Slime Slinger shoot speed
 - Removed Eye Beam Staff
 - Changed Demon Eye Lens sprite to match the Lens
 - Changed around recipes
+- Added Wiki page 
+    https://github.com/cthereallecter/Armorillose-Armory/wiki
 
 v0.2.0.1
 - Added three new weapons: Amethyst Soulreaver, Hellstone Inferno Blade, and Magma Katana
