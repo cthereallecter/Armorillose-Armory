@@ -8,6 +8,8 @@ v0.2.0.2
 - Removed Eye Beam Staff
 - Changed Demon Eye Lens sprite to match the Lens
 - Changed around recipes
+- Added Wiki page 
+    https://github.com/cthereallecter/Armorillose-Armory/wiki
 
 v0.2.0.1
 - Added three new weapons: Amethyst Soulreaver, Hellstone Inferno Blade, and Magma Katana
