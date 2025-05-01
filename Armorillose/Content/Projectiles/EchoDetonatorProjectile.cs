@@ -10,6 +10,7 @@ using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
 
+using Armorillose.Content.Buffs;
 using Armorillose.Content.Players;
 
 namespace Armorillose.Content.Projectiles
